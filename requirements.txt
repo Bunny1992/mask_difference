@@ -1,2 +1,5 @@
 nibabel
 nilearn
+matplotlib
+pandas
+numpy

@@ -1,3 +1,4 @@
+
 # Import required libraries.
 from nilearn import plotting
 import pylab as plt
@@ -48,7 +49,7 @@ def max_diff(first, second, connect_diagonal):
 
 	# Set the default value of Connect_diagonal to false
 	CONNECT_DIAGONAL = False
-	#CONNECT_DIAGONAL = connect_diagonal
+	CONNECT_DIAGONAL = connect_diagonal
 	
 	#Check if dimensions of both the images are same else exit.
 	if first.shape != second.shape:
@@ -67,11 +68,13 @@ def max_diff(first, second, connect_diagonal):
         
         ## Add labels to 0 and 1 using nd.image.label() function.
         ## Get input from the user to check diagonal connectivity of labels.
-		if CONNECT_DIAGONAL == True:
+		if CONNECT_DIAGONAL == 'True':
+			print("Connect diagonal value is set as true by the user")
 			labeled_array_additions, num_features_additions = label(additions, np.ones((3, 3, 3)))
 			labeled_array_subtractions, num_features_subtractions = label(subtractions, np.ones((3, 3, 3)))
 
 		else:
+			print("Connect diagonal value is set as false by the user")
 			labeled_array_additions, num_features_additions = label(additions)
 			labeled_array_subtractions, num_features_subtractions = label(subtractions)
 	
@@ -92,6 +95,7 @@ def max_diff(first, second, connect_diagonal):
 		changes = {}
 		changes['additions'] = additions
 		changes['subtractions'] = subtractions
+		changes['CONNECT_DIAGONAL'] = CONNECT_DIAGONAL
 		with open("changes.json", "w") as outfile:
 			json.dump(changes, outfile)
 
@@ -100,5 +104,3 @@ if __name__ == "__main__":
 	second = sys.argv[2]
 	connect_diagonal = sys.argv[3]
 	max_diff(first, second, connect_diagonal)
-     
-

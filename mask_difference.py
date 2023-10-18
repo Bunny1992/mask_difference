@@ -71,6 +71,7 @@ def max_diff(first, second, connect_diagonal):
 		if CONNECT_DIAGONAL == 'True':
 			print("Connect diagonal value is set as true by the user")
 			labeled_array_additions, num_features_additions = label(additions, np.ones((3, 3, 3)))
+
 			labeled_array_subtractions, num_features_subtractions = label(subtractions, np.ones((3, 3, 3)))
 
 		else:
@@ -78,19 +79,25 @@ def max_diff(first, second, connect_diagonal):
 			labeled_array_additions, num_features_additions = label(additions)
 			labeled_array_subtractions, num_features_subtractions = label(subtractions)
 	
-		center_additions= ndimage.center_of_mass(labeled_array_additions, labels=labeled_array_additions, index=range(1,num_features_additions))
-		center_subtractions= ndimage.center_of_mass(labeled_array_subtractions, labels=labeled_array_subtractions, index=range(1,num_features_subtractions))
 		#Creating additions and subtractions dictionaries.
 		additions = {}
 		subtractions = {} 
-		for i in range(num_features_additions-1):
-			center = list(int(x)+1 for x in list(center_additions)[i])
-			additions[i+1] = center
+		for i in range(1,num_features_additions+1):
+			center_additions= ndimage.center_of_mass(labeled_array_additions, labels=labeled_array_additions, index=i)
+			center = list(int(x)+1 for x in list(center_additions))
+			tmp = {}
+			tmp["Volume"] = i
+			tmp["center"] = center
+			additions[i] = tmp
 
 
-		for i in range(num_features_subtractions-1):
-			center = list(int(x)+1 for x in list(center_subtractions)[i])
-			subtractions[i+1] = center
+		for i in range(1,num_features_subtractions+1):
+			center_subtractions= ndimage.center_of_mass(labeled_array_subtractions, labels=labeled_array_subtractions, index=i)
+			center = list(int(x)+1 for x in list(center_subtractions))
+			tmp = {}
+			tmp["Volume"] = i
+			tmp["center"] = center
+			subtractions[i] = tmp
 
 		changes = {}
 		changes['additions'] = additions

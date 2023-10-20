@@ -86,7 +86,7 @@ def max_diff(first, second, connect_diagonal):
 			center_additions= ndimage.center_of_mass(labeled_array_additions, labels=labeled_array_additions, index=i)
 			center = list(int(x)+1 for x in list(center_additions))
 			tmp = {}
-			tmp["Volume"] = i
+			tmp["Volume"] = np.count_nonzero(labeled_array_additions == i)
 			tmp["center"] = center
 			additions[i] = tmp
 
@@ -95,7 +95,7 @@ def max_diff(first, second, connect_diagonal):
 			center_subtractions= ndimage.center_of_mass(labeled_array_subtractions, labels=labeled_array_subtractions, index=i)
 			center = list(int(x)+1 for x in list(center_subtractions))
 			tmp = {}
-			tmp["Volume"] = i
+			tmp["Volume"] = np.count_nonzero(labeled_array_subtractions == i)
 			tmp["center"] = center
 			subtractions[i] = tmp
 
